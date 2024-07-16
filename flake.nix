@@ -13,14 +13,21 @@
         inputs.hercules-ci-effects.flakeModule
       ];
 
-      systems = [ "x86_64-linux" "aarch64-darwin" "x86_64-darwin" "aarch64-linux" ];
+      systems = [ "x86_64-linux" ];
       herculesCI.ciSystems = [ "x86_64-linux" ];
 
       perSystem = { config, system, lib, self', ... }:
         let
           pkgs = import nixpkgs {inherit system;};
-        in
-          { packages.default = pkgs.hello;
+        in {
+          packages.default = pkgs.hello;
+          checks.default = pkgs.stdenv.mkDerivation {
+            name = "default-check";
+            src = ./.;
+            buildPhase = ''
+              touch $out
+            '';
           };
+        };
     };
 }
