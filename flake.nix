@@ -14,6 +14,7 @@
       ];
 
       systems = [ "x86_64-linux" "aarch64-darwin" "x86_64-darwin" "aarch64-linux" ];
+      herculesCI.ciSystems = [ "x86_64-linux" ];
 
       perSystem = { config, system, lib, self', ... }:
         let
